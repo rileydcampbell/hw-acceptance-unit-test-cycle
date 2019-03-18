@@ -10,6 +10,11 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  page.body is the entire content of the page as a string.
   expect(page.body.index(e1) < page.body.index(e2))
 end
+Then /the director of "(.*)" should be "(.*)"/ do |movie, director|
+  movie = Movie.find_by(:title=>movie)
+  visit movie_path(movie)
+  expect(page.body).to match(/Director:\s#{director}/)
+end
 
 When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   rating_list.split(', ').each do |rating|
